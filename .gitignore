@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Data, experiment outputs, checkpoints, and plots
+data/
+phase4/data/
+phase4/vectors/
+results/
+**/results/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.csv
+*.json
+*.jsonl
+*.log
+
+# Superseded experiments (kept locally for reference)
+archived_previous_experiments/
+
+# Editor and operating-system files
+.DS_Store
+.vscode/
+.idea/
