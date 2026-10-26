@@ -147,3 +147,24 @@
   override를 감지하고 parametric restoration을 적용하는 gate에 가깝다.
 - 결과 파일: `results/exp_A_per_case.jsonl`,
   `results/exp_A_beneficial_override.csv`.
+
+## 2026-08-13 11:40 KST — 6월 Phase 4 일반 QA 평가셋 구성 사후 점검
+
+- 6월의 “일반 QA 성능 80%대”는 `phase4/results/exp3_comparison/best_configs.json`의
+  `B_gated_upk` 결과이며, `dev_200.json`에서 seed 42로 뽑은 30문항의 `supportive`
+  조건을 historical two-option metric으로 평가한 것이다.
+- 당시 실제 B-gated 설정(L17, alpha=6.0, gamma=2.0, k=1.0,
+  tau=13.041983604431152)을 그대로 재현했다. `supportive` context는 conflict
+  context의 오답 문자열을 정답 문자열로 치환한 합성 context임도 확인했다.
+- closed-book 오답 → supportive-context 정답으로 바뀌는 beneficial-override형 문항은
+  원래 two-option 지표와 네 선택지 full-choice 교차 확인 모두에서 **0/30 (0.0%)**였다.
+- 따라서 6월의 일반 QA/supportive 정확도는 beneficial override 실패를 탐지할 수 없는
+  구성이다. 이 평가는 대부분 closed-book에서 이미 정답인 KC 사례의 context 지지 여부를
+  측정했으며, 실제 temporal old→new 갱신을 요구하는 TempLAMA 조건 ③과 다르다.
+- 전체 정확도는 원래 historical two-option 기준으로 no-intervention 28/30 (93.3%),
+  B-gated 25/30 (83.3%)였다. full-choice 기준 B-gated는 16/30 (53.3%)으로 더 낮았는데,
+  historical 지표가 정답과 replacement 두 선택지만 비교해 제3의 오답 선택을 놓칠 수
+  있음을 확인했다.
+- 상세 보고서: `results/june_eval_composition_check.md`; case별 audit:
+  `results/june_eval_composition_per_case.jsonl`; 재현 코드:
+  `scripts/12_check_june_eval_composition.py`.
